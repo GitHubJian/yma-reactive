@@ -1,11 +1,10 @@
 {
     "name": "yma-reactive",
     "version": "1.0.0",
-    "description": "",
+    "description": "基于数据驱动的响应式框架",
     "main": "./src/index.js",
     "scripts": {},
     "keywords": [],
     "author": "",
-    "license": "ISC",
-    "dependencies": {}
+    "license": "ISC"
 }
