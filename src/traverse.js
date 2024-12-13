@@ -4,7 +4,8 @@ const {isObject} = require('./util');
 const seenObjects = new Set();
 
 function _traverse(val, seen) {
-    let i, keys;
+    let i;
+    let keys;
     const isA = Array.isArray(val);
     if ((!isA && !isObject(val)) || Object.isFrozen(val)) {
         return;

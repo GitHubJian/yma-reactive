@@ -3,6 +3,11 @@ const Watcher = require('./watcher');
 const {observe, set, del} = require('./observe');
 const {Dep} = require('./dep');
 
+function isReserved(str) {
+    let c = (str + '').charCodeAt(0);
+    return c === 0x24 || c === 0x5f;
+}
+
 let sharedPropertyDefinition = {
     enumerable: true,
     configurable: true,
@@ -32,7 +37,9 @@ function initData(react, options) {
     let i = keys.length;
     while (i--) {
         let key = keys[i];
-        proxy(react, '_data', key);
+        if (!isReserved(key)) {
+            proxy(react, '_data', key);
+        }
     }
 
     observe(data);
@@ -46,12 +53,7 @@ function initComputed(react, computed) {
         const userDef = computed[key];
         const getter = typeof userDef === 'function' ? userDef : userDef.get;
 
-        watchers[key] = new Watcher(
-            react,
-            getter || noop,
-            noop,
-            computedWatcherOptions
-        );
+        watchers[key] = new Watcher(react, getter || noop, noop, computedWatcherOptions);
 
         if (!(key in react)) {
             defineComputed(react, key, userDef);
@@ -75,10 +77,7 @@ function defineComputed(target, key, userDef) {
 
     if (sharedPropertyDefinition.set === noop) {
         sharedPropertyDefinition.set = function () {
-            warn(
-                `Computed property "${key}" was assigned to but it has no setter.`,
-                this
-            );
+            warn(`Computed property "${key}" was assigned to but it has no setter.`, this);
         };
     }
 
@@ -166,9 +165,7 @@ React.prototype.$watch = function $watch(expOrFn, cb, options) {
         try {
             cb.call(react, watcher.value);
         } catch (e) {
-            console.error(
-                `callback for immediate watcher "${watcher.expression}"`
-            );
+            console.error(`callback for immediate watcher "${watcher.expression}"`);
         }
     }
 

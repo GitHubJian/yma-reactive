@@ -18,7 +18,8 @@ let getNow = Date.now;
 function flushSchedulerQueue() {
     currentFlushTimestamp = getNow();
     flushing = true;
-    let watcher, id;
+    let watcher;
+    let id;
 
     queue.sort((a, b) => a.id - b.id);
 

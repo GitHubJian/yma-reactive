@@ -3,15 +3,7 @@ const {def} = require('./util');
 const arrayProto = Array.prototype;
 const arrayMethods = Object.create(arrayProto);
 
-const methodsToPatch = [
-    'push',
-    'pop',
-    'shift',
-    'unshift',
-    'splice',
-    'sort',
-    'reverse',
-];
+const methodsToPatch = ['push', 'pop', 'shift', 'unshift', 'splice', 'sort', 'reverse'];
 
 methodsToPatch.forEach(function (method) {
     const original = arrayProto[method];

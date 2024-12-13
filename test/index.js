@@ -3,7 +3,7 @@ const reactive = require('../src');
 const react = reactive({
     data() {
         return {
-            name: 'yma',
+            $name: 'yma',
             sex: 'f',
         };
     },
@@ -11,6 +11,11 @@ const react = reactive({
         customData: {
             handler(newVal, oldVal) {
                 console.log('newVal > ', newVal, ', oldVal > ', oldVal);
+            },
+        },
+        name: {
+            handler(newVal, oldVal) {
+                console.log(newVal, oldVal);
             },
         },
     },
@@ -28,3 +33,5 @@ const react = reactive({
 });
 
 react.name = 'xiaows';
+
+console.log(react.name);

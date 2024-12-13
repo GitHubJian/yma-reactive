@@ -1,13 +1,6 @@
 const {Dep} = require('./dep');
 const {arrayMethods} = require('./array');
-const {
-    def,
-    hasProto,
-    isPlainObject,
-    isObject,
-    hasOwn,
-    isValidArrayIndex,
-} = require('./util');
+const {def, hasProto, isPlainObject, isObject, hasOwn, isValidArrayIndex} = require('./util');
 
 const arrayKeys = Object.getOwnPropertyNames(arrayMethods);
 
@@ -70,11 +63,7 @@ function observe(value) {
     let ob;
     if (hasOwn(value, '__ob__') && value.__ob__ instanceof Observer) {
         ob = value.__ob__;
-    } else if (
-        shouldObserve &&
-        (Array.isArray(value) || isPlainObject(value)) &&
-        Object.isExtensible(value)
-    ) {
+    } else if (shouldObserve && (Array.isArray(value) || isPlainObject(value)) && Object.isExtensible(value)) {
         ob = new Observer(value);
     }
 
