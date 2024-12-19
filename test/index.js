@@ -3,7 +3,7 @@ const reactive = require('../src');
 const react = reactive({
     data() {
         return {
-            $name: 'yma',
+            name: 'yma',
             sex: 'f',
         };
     },

@@ -133,4 +133,4 @@ class Watcher {
     }
 }
 
-module.exports = Watcher;
+exports.Watcher = Watcher;

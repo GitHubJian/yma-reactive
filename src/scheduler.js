@@ -13,10 +13,7 @@ function resetSchedulerState() {
     waiting = flushing = false;
 }
 
-let getNow = Date.now;
-
 function flushSchedulerQueue() {
-    currentFlushTimestamp = getNow();
     flushing = true;
     let watcher;
     let id;

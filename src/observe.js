@@ -158,6 +158,7 @@ function del(target, key) {
         return;
     }
 
+    const ob = target.__ob__;
     if (!hasOwn(target, key)) {
         return;
     }

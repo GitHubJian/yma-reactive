@@ -1,12 +1,7 @@
-const {isPlainObject, noop} = require('./util');
-const Watcher = require('./watcher');
+const {isPlainObject, noop, isReserved} = require('./util');
+const {Watcher} = require('./watcher');
 const {observe, set, del} = require('./observe');
 const {Dep} = require('./dep');
-
-function isReserved(str) {
-    let c = (str + '').charCodeAt(0);
-    return c === 0x24 || c === 0x5f;
-}
 
 let sharedPropertyDefinition = {
     enumerable: true,
@@ -66,7 +61,6 @@ function defineComputed(target, key, userDef) {
         sharedPropertyDefinition.get = createComputedGetter(key);
         sharedPropertyDefinition.set = noop;
     } else {
-        debugger;
         sharedPropertyDefinition.get = userDef.get
             ? userDef.cache !== false
                 ? createComputedGetter(key)
@@ -77,7 +71,7 @@ function defineComputed(target, key, userDef) {
 
     if (sharedPropertyDefinition.set === noop) {
         sharedPropertyDefinition.set = function () {
-            warn(`Computed property "${key}" was assigned to but it has no setter.`, this);
+            console.warn(`Computed property "${key}" was assigned to but it has no setter.`, this);
         };
     }
 
@@ -182,6 +176,19 @@ function reactive(opts) {
     return new React(opts);
 }
 
-reactive.React = React;
+function wrap(defaults, options) {
+    for (const prop in options) {
+        if (Object.prototype.hasOwnProperty.call(options, prop)) {
+            defaults[prop] = options[prop];
+        }
+    }
 
-module.exports = reactive;
+    return defaults;
+}
+
+module.exports = wrap(reactive, {
+    React,
+    $initData: initData,
+    $initWatch: initWatch,
+    $initComputed: initComputed,
+});
